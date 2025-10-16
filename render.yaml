@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: staff-ai-meeting-room
+    env: python
+    region: frankfurt
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python src/server.py"
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ELEVENLABS_API_KEY
+        sync: false
+
