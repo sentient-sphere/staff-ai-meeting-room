@@ -8,9 +8,6 @@ import json
 import os
 from openai import OpenAI
 
-# Initialize OpenAI client
-client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
-
 # Agent configurations
 AGENTS = {
     'elara': {
@@ -63,6 +60,8 @@ def route_to_agent(message, topic):
 
 def generate_response(agent_id, message, topic):
     """Generate AI response for agent"""
+    # Initialize OpenAI client with API key from environment
+    client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
     agent = AGENTS[agent_id]
     
     system_prompt = f"""You are {agent['name']}, {agent['role']} at Sentient Sphere Technologies.
