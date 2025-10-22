@@ -73,6 +73,13 @@ Respond professionally and concisely (2-3 sentences max) from your role's perspe
 Be helpful, insightful, and stay in character."""
 
     try:
+        # Debug: Check if API key is loaded
+        api_key = os.environ.get('OPENAI_API_KEY')
+        if not api_key:
+            return "Error: OPENAI_API_KEY not found in environment"
+        if len(api_key) < 20:
+            return f"Error: OPENAI_API_KEY seems invalid (length: {len(api_key)})"
+        
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
@@ -85,7 +92,10 @@ Be helpful, insightful, and stay in character."""
         
         return response.choices[0].message.content
     except Exception as e:
-        return f"I apologize, but I'm experiencing technical difficulties. Error: {str(e)}"
+        # Return detailed error for debugging
+        import traceback
+        error_details = traceback.format_exc()
+        return f"Error: {str(e)}\n\nDetails: {error_details[:200]}"
 
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
